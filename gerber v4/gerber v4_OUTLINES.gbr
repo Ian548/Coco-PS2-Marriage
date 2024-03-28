@@ -1,0 +1,27 @@
+G04 --- HEADER BEGIN --- *
+G04 #@! TF.GenerationSoftware,LibrePCB,LibrePCB,1.0.0*
+G04 #@! TF.CreationDate,2024-03-25T10:59:42*
+G04 #@! TF.ProjectId,coco2 ps2 marriage,d66203e6-877b-4e41-8959-41fb69d6a211,v1*
+G04 #@! TF.Part,Single*
+G04 #@! TF.SameCoordinates*
+G04 #@! TF.FileFunction,Profile,NP*
+%FSLAX66Y66*%
+%MOMM*%
+G01*
+G75*
+G04 --- HEADER END --- *
+G04 --- APERTURE LIST BEGIN --- *
+G04 #@! TA.AperFunction,Profile*
+%ADD10C,0.001*%
+G04 #@! TD*
+G04 --- APERTURE LIST END --- *
+G04 --- BOARD BEGIN --- *
+D10*
+X0Y-7620000D02*
+X101600000Y-7620000D01*
+X101282500Y91440000D01*
+X-317500Y91440000D01*
+X0Y-7620000D01*
+G04 --- BOARD END --- *
+G04 #@! TF.MD5,d9199238c97048a371dcdd66e54a507e*
+M02*

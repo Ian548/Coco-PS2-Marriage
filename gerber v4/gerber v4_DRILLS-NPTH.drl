@@ -1,0 +1,15 @@
+M48
+; #@! TF.GenerationSoftware,LibrePCB,LibrePCB,1.0.0
+; #@! TF.CreationDate,2024-03-25T10:59:42
+; #@! TF.ProjectId,coco2 ps2 marriage,d66203e6-877b-4e41-8959-41fb69d6a211,v1
+; #@! TF.Part,Single
+; #@! TF.SameCoordinates
+; #@! TF.FileFunction,NonPlated,1,2,NPTH
+FMAT,2
+METRIC,TZ
+%
+G90
+G05
+M71
+T0
+M30
