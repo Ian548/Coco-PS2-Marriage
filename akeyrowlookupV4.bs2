@@ -1,0 +1,82 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+' Written by Ian Ashworth.
+' Keycode is input to 'sample'via pins 8 - 14
+' pin 15 is output on next valid key after shift is pressed
+' and released.  ROW data is output on pins 0 - 2
+' pin 3 is DATA valid signal COl data is output on pins 4 - 6.
+' Case numbers are in Hex and need to be in ascending order
+' Program uses the same CocoII character generator as the original
+' keyboard so no new keycodes will be accepted.  
+'
+' You are free to use this software and modify it at your discretion
+' The software comes with no warranty or guarantees of any kind
+
+sample          VAR     Byte            ' keycode input  8 bit serial from PS2 keyboard
+row             VAR     Nib             ' output row code and decode enable 4 bit
+col             VAR     Nib             ' output column and pulse enable 4 bit
+rest0           PIN 15                  ' Shift key output active low
+rest            VAR     Bit
+
+Main:
+    DIRS = %1000000011111111                      ' sets I/O PIN direction
+    rest = 0
+new_key:
+      sample = INH * 2                            ' strip MSB from input keycode
+      sample = sample / 2
+      SELECT sample
+        CASE $12,$59                              ' shift key detect
+          rest = 1
+      ENDSELECT
+      SELECT sample                               ' row decoder
+        CASE $1C,$21,$23,$24,$2B,$32,$34,$5B      ' test row zero
+          row = 0
+        CASE $31,$33,$3A,$3B,$42,$43,$44,$4B      ' test row one
+          row = 1
+        CASE $15,$1B,$1D,$2A,$2C,$2D,$3C,$4D      ' test row two
+          row = 2
+        CASE $1A,$22,$29,$35,$6B,$72,$74,$75      ' test row three
+          row = 3
+        CASE $16,$1E,$25,$26,$2E,$36,$3D,$45      ' test row for
+          row = 4
+        CASE $3E,$41,$46,$49,$4A,$4C,$4E,$54      ' test row five
+          row = 5
+        CASE $11,$14,$5A                          ' test row six
+          row = 6
+        CASE ELSE                                 ' disable decode
+          row = 8
+      ENDSELECT
+      SELECT sample                               ' Column decoder
+        CASE $22,$33,$3E,$45,$4D,$5A,$5B          ' test col zero
+          col = 0
+        CASE $14,$15,$16,$1C,$35,$43,$46          ' test col one
+          col = 1
+        CASE $11,$1A,$1E,$2D,$32,$3B,$54          ' test col two
+          col = 2
+        CASE $1B,$21,$26,$42,$4C,$75              ' test col three
+          col = 3
+        CASE $23,$25,$2C,$41,$4B,$72              ' test col four
+          col = 4
+        CASE $24,$2E,$3A,$3C,$4E,$6B              ' test col five
+          col = 5
+        CASE $2A,$2B,$31,$36,$49,$74              ' test col six
+          col = 6
+        CASE $1D,$29,$34,$3D,$44,$4A              ' test col seven
+          col = 7
+        CASE ELSE                                 ' disable pulse output
+          col = 8
+      ENDSELECT                                  
+      SELECT rest0                                ' reset the shift key function
+        CASE 1
+          rest = 0
+          rest0 = 0
+      ENDSELECT
+      SELECT row                                  ' is shifted key valid
+        CASE 4,5
+          IF rest = 1 THEN rest0 = 1              ' Shifted key is valid
+      ENDSELECT
+      OUTA = row                                  ' output
+      OUTB = col                      
+      GOTO new_key
+END
